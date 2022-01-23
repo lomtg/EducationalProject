@@ -2,6 +2,7 @@ using EducationalProject.BackgroundServices;
 using EducationalProject.Middleware;
 using EducationalProject.Models;
 using EducationalProject.Options;
+using EducationalProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,13 +31,19 @@ namespace EducationalProject
         {
             services.AddControllers();
 
-            services.AddHttpClient<FlightService>(client =>
-                client.BaseAddress = new Uri("https://test.api.amadeus.com"));
-
-            services.Configure<ServiceAvailableConfiguration>(Configuration.GetSection("AppServices"));
+            services.AddHttpClient<AccessTokenProviderService>(client =>
+            {
+                client.BaseAddress = new Uri("https://test.api.amadeus.com");
+                client.Timeout = new TimeSpan(0, 0, 0,0,100);
+            });
+            
+            services.Configure<ServiceAvailableOptions>(Configuration.GetSection("AppServices"));
             services.Configure<AccessTokenOptions>(Configuration.GetSection("Tokens"));
+            services.Configure<AmadeusAPIOptions>(Configuration.GetSection("AmadeusAPI"));
 
             services.AddHostedService<AccessTokenService>();
+
+            services.AddScoped<FlightService>();
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

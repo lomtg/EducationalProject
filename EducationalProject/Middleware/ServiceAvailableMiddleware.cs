@@ -10,10 +10,9 @@ namespace EducationalProject.Middleware
     public class ServiceAvailableMiddleware
     {
         private readonly RequestDelegate _next;
-        //private readonly ServiceAvailableConfiguration _serviceAvailableOptions;
-        private readonly IOptionsMonitor<ServiceAvailableConfiguration> _serviceAvailableOptions;
+        private readonly IOptionsMonitor<ServiceAvailableOptions> _serviceAvailableOptions;
 
-        public ServiceAvailableMiddleware(RequestDelegate next,IOptionsMonitor<ServiceAvailableConfiguration> options)
+        public ServiceAvailableMiddleware(RequestDelegate next,IOptionsMonitor<ServiceAvailableOptions> options)
         {
             _next = next;
             _serviceAvailableOptions = options;

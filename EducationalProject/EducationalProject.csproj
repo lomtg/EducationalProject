@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <Compile Remove="MiddlewareExtensions\**" />
+    <Content Remove="MiddlewareExtensions\**" />
+    <EmbeddedResource Remove="MiddlewareExtensions\**" />
+    <None Remove="MiddlewareExtensions\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MiddlewareExtensions\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 

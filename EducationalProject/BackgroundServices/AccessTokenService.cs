@@ -1,4 +1,5 @@
 ﻿using EducationalProject.Options;
+using EducationalProject.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -9,17 +10,17 @@ namespace EducationalProject.BackgroundServices
 {
     public class AccessTokenService : BackgroundService
     {
-        private readonly FlightService _flightService;
+        private readonly AccessTokenProviderService _tokenProvider;
         private readonly ILogger<AccessTokenService> _logger;
-        private readonly IOptionsMonitor<ServiceAvailableConfiguration> _serviceAvailableOptions;
+        private readonly IOptionsMonitor<ServiceAvailableOptions> _serviceAvailableOptions;
         private readonly IOptionsMonitor<AccessTokenOptions> _accessTokenOptions;
 
-        public AccessTokenService(FlightService flightService,
+        public AccessTokenService(AccessTokenProviderService tokenProvider,
             ILogger<AccessTokenService> logger,
-            IOptionsMonitor<ServiceAvailableConfiguration> serviceAvailableOptions,
+            IOptionsMonitor<ServiceAvailableOptions> serviceAvailableOptions,
             IOptionsMonitor<AccessTokenOptions> accessTokenOptions)
         {
-            _flightService = flightService;
+            _tokenProvider = tokenProvider;
             _logger = logger;
             _serviceAvailableOptions = serviceAvailableOptions;
             _accessTokenOptions = accessTokenOptions;
@@ -35,7 +36,7 @@ namespace EducationalProject.BackgroundServices
         {
             while(!stoppingToken.IsCancellationRequested)
             {
-                var token = await _flightService.GetAccesToken(stoppingToken);
+                var token = await _tokenProvider.GetAccesToken(stoppingToken);
 
                 if(!string.IsNullOrEmpty(token))
                 {
