@@ -1,5 +1,6 @@
 using EducationalProject.BackgroundServices;
 using EducationalProject.Middleware;
+using EducationalProject.MiddlewareRegistration;
 using EducationalProject.Models;
 using EducationalProject.Options;
 using EducationalProject.Services;
@@ -34,7 +35,7 @@ namespace EducationalProject
             services.AddHttpClient<AccessTokenProviderService>(client =>
             {
                 client.BaseAddress = new Uri("https://test.api.amadeus.com");
-                client.Timeout = new TimeSpan(0, 0, 0,0,100);
+                client.Timeout = new TimeSpan(0, 0, 5);
             });
             
             services.Configure<ServiceAvailableOptions>(Configuration.GetSection("AppServices"));
@@ -53,13 +54,9 @@ namespace EducationalProject
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ServiceAvailableMiddleware>();
-            //app.UseHttpsRedirection();
+            app.CheckServiceAvailablity();
 
             app.UseRouting();
-
-            //app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

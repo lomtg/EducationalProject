@@ -17,7 +17,7 @@ namespace EducationalProject.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        public string GetAsync()
         {
             return _flightService.Get();
         }

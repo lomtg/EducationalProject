@@ -21,7 +21,7 @@ namespace EducationalProject
         }
 
         public string Get()
-        {
+        { 
             return _accessTokenOptions.CurrentValue.AccessToken;
         }
 
